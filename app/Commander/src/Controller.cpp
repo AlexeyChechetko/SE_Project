@@ -1,27 +1,22 @@
 #include <Controller.hpp>
 
-#include <CommandDelete.hpp>
-#include <CommandLoad.hpp>
-#include <CommandOption.hpp>
-#include <CommandShow.hpp>
-#include <CommandPrint.hpp>
+#include "CommandFactory.hpp"
+
 
 #include <iostream>
 #include <sstream>
 
 void Controller::create_commands()
 {
-    CommandDelete* _CommandDelete = new CommandDelete("");
-    CommandLoad* _CommandLoad = new CommandLoad("");
-    CommandOption* _CommandOption = new CommandOption("");
-    CommandShow* _CommandShow = new CommandShow("");
-    CommandPrint* _CommandPrint = new CommandPrint("");
+    CommandFactory* _CommandFactory = new CommandFactory();
 
-    this->commands.push_back(_CommandDelete);
-    this->commands.push_back(_CommandLoad);
-    this->commands.push_back(_CommandOption);
-    this->commands.push_back(_CommandShow);  
-    this->commands.push_back(_CommandPrint); 
+    this->commands.push_back(_CommandFactory->create_command("delete"));
+    this->commands.push_back(_CommandFactory->create_command("show"));
+    this->commands.push_back(_CommandFactory->create_command("print"));
+    this->commands.push_back(_CommandFactory->create_command("load"));  
+    this->commands.push_back(_CommandFactory->create_command("option")); 
+
+    delete _CommandFactory;
 }
 
 bool Controller::hanlde_command(std::string command)

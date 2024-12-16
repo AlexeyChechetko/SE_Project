@@ -10,10 +10,7 @@ RUN apt-get update && \
 WORKDIR /app
 
 # Копируем все файлы из папки app в контейнер
-COPY ./app .
+COPY ./Application .
 
 # Создаем директорию для сборки
 RUN mkdir build && cmake -B build -S . && cmake --build build
-
-# Запускаем исполняемый файл Commander
-# CMD ["./build/Commander/Commander"]
