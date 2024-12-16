@@ -27,7 +27,7 @@ double s = std::sqrt(  sum_ui2 / (n-1) - std::pow(sum_ui,2)/ (n*(n-1))    );
 rate = (mu/(n-1)) *252;
 sigma = s * std::sqrt(252);
 
-std::cout<<"RATE AND VOLATILITY COMPUTED: "<<"RATE "<<rate<<"  "<<"VOLATILITY "<<sigma<<std::endl;
+std::cout <<"\nrate = "<<rate<<"\n"<<"volatility = "<<sigma<<"\n"<<std::endl;
 }
 
 template <typename T>
@@ -62,7 +62,7 @@ Result MonteCarloPricer<T>::price(Data * data) {
 
     result.price /= num_threads;
     result.std = sqrt(result.std / num_threads);
-    std::cout<<"Price calculated"<<"\n";
+    //std::cout<<"Price calculated"<<"\n";
     return result;
 }
 
@@ -101,7 +101,7 @@ Request::Request(const std::string r){
             strike = std::stod(matches[4]);
             maturity = std::stod(matches[6]);
             pricer = matches[3];
-            std::cout<<"COMMAND PARSED."<<std::endl;
+            //std::cout<<"COMMAND PARSED."<<std::endl;
     }else{
         throw MyException();
     }
@@ -121,7 +121,7 @@ Request::Request(int argc, char *argv[]){
         strike = std::stod(matches[3]);
         maturity = std::stod(matches[5]);
         pricer = matches[2];
-        std::cout<< matches[1]<<"  " << matches[2] <<"  " << std::stod(matches[3])<<"  "<< std::stod(matches[5])<<"  ";
+        //std::cout<< matches[1]<<"  " << matches[2] <<"  " << std::stod(matches[3])<<"  "<< std::stod(matches[5])<<"  ";
     }else{
         throw MyException();
     }
@@ -130,7 +130,7 @@ Request::Request(int argc, char *argv[]){
 
 void Controller ::handle_request(Request request){
 Result res;
- std::cout<<"Request handling\n";
+ //std::cout<<"Request handling\n";
 DBUpload * _DB_upload = new PostgreSQLUpload(); 
 Data * _Data = _DB_upload->upload("data"); 
 PricerFactory* _PricerFactory; 
@@ -138,17 +138,17 @@ Pricer* _Pricer ;
  
 if (request.get_option_type() == "CALL")
 {
-    std::cout<<"MAKING CALL OPTION "<<request.get_option_type()<<"\n";
+    //std::cout<<"MAKING CALL OPTION "<<request.get_option_type()<<"\n";
     _Pricer = _PricerFactory->create_pricer(request, EuropeanCallOption( request.get_strike(), request.get_maturity() ) ); 
 }
 else
-{	std::cout<<"MAKING PUT OPTION "<<request.get_option_type()<<"\n";
+{	//std::cout<<"MAKING PUT OPTION "<<request.get_option_type()<<"\n";
     _Pricer = _PricerFactory->create_pricer(request, EuropeanPutOption( request.get_strike(), request.get_maturity() ) );  
 }
 if(_Pricer) {
     if(_Data){
         res = _Pricer->price(_Data);
-        std::cout <<"Option prise is "<< res.price<<", "<<"std is "<<res.std<<std::endl;
+        std::cout <<"Option prise: " << res.price << "\n" <<"std: "<< res.std << "\n" << std::endl;
     }else{
         std::cout<<"_Data is nullptr\n";
     }

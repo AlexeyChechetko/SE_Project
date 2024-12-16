@@ -37,12 +37,13 @@ void PostgreSQLManage::show()
 
     // Выводим названия таблиц
     int rows = PQntuples(result);
-    std::cout << "Таблицы в базе данных:" << std::endl;
+    std::cout << "\n" << "Таблицы в базе данных:" << std::endl;
     for (int i = 0; i < rows; ++i) 
     {
         // Получаем значение из первой колонки
         std::cout << PQgetvalue(result, i, 0) << std::endl; 
     }
+    std::cout << "\n";
 
     // Освобождаем память
     PQclear(result);
@@ -124,6 +125,7 @@ void PostgreSQLManage::print()
         }
         std::cout << "\n"; 
     }
+    std::cout << "\n";
 
     // Освобождаем память
     PQclear(result);
