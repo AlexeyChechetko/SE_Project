@@ -11,5 +11,6 @@ services:
     build: .
     depends_on:
       - db
+    container_name: app
     tty: true
 
